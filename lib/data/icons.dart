@@ -16,3 +16,11 @@ final Widget homeIconActive = SvgPicture.asset('images/homeActive.svg');
 final Widget commentIcon = SvgPicture.asset('images/comment.svg');
 final Widget saveIcon = SvgPicture.asset('images/save.svg');
 final Widget originalIcon = SvgPicture.asset('images/original.svg');
+final Widget resize = SvgPicture.asset(
+  'images/resize.svg',
+  width: 16,
+  height: 16,
+);
+final Widget showAll = SvgPicture.asset(
+  'images/showAll.svg',
+);

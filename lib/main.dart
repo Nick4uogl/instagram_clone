@@ -1,8 +1,7 @@
-import 'package:firstapp/widgets/storyItem.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firstapp/data/icons.dart';
-import 'package:firstapp/pages/home.dart';
+import 'package:firstapp/pages/home/home.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,9 +17,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Instagram',
       theme: ThemeData(
-          primarySwatch: Colors.blue,
-          scaffoldBackgroundColor: Colors.white,
-          fontFamily: 'San Francisco'),
+        primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Colors.white,
+        fontFamily: 'San Francisco',
+      ),
       debugShowCheckedModeBanner: false,
       home: const MyHomePage(),
     );
@@ -35,8 +35,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  //!1
-  int selectedIndex = 1;
+  int selectedIndex = 0;
+  final PageController controller = PageController();
+
   final pages = [
     const HomePage(),
     const Center(
@@ -56,48 +57,81 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: pages[selectedIndex - 1], //!2
-      bottomNavigationBar: Container(
-        color: const Color(0x4DF2F2F2),
-        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            IconButton(
-              onPressed: () => {
-                setState(() => {selectedIndex = 1})
-              },
-              icon: selectedIndex == 1 ? homeIconActive : homeIcon,
+      body: PageView(
+        controller: controller,
+        children: pages,
+        onPageChanged: (index) {
+          setState(() {
+            selectedIndex = index;
+          });
+        },
+      ),
+      bottomNavigationBar: BottomNavBar(
+        controller: controller,
+        selectedIndex: selectedIndex,
+      ),
+    );
+  }
+}
+
+class BottomNavBar extends StatelessWidget {
+  const BottomNavBar(
+      {super.key, required this.controller, required this.selectedIndex});
+  final int selectedIndex;
+  final PageController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: const Color(0x4DF2F2F2),
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          IconButton(
+            onPressed: () => {
+              controller.animateToPage(0,
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.ease)
+            },
+            icon: selectedIndex == 0 ? homeIconActive : homeIcon,
+          ),
+          IconButton(
+            onPressed: () => {
+              controller.animateToPage(1,
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.ease)
+            },
+            icon: selectedIndex == 1 ? searchIconActive : searchIcon,
+          ),
+          IconButton(
+            onPressed: () => {
+              controller.animateToPage(2,
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.ease)
+            },
+            icon: selectedIndex == 2 ? addIgtvActive : igtvAdd,
+          ),
+          IconButton(
+            onPressed: () => {
+              controller.animateToPage(3,
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.ease)
+            },
+            icon: selectedIndex == 3 ? likesActive : likeIcon,
+          ),
+          IconButton(
+            onPressed: () => {
+              controller.animateToPage(4,
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.ease)
+            },
+            icon: const CircleAvatar(
+              backgroundImage: AssetImage('images/avatar.jpg'),
+              radius: 13,
             ),
-            IconButton(
-              onPressed: () => {
-                setState(() => {selectedIndex = 2})
-              },
-              icon: selectedIndex == 2 ? searchIconActive : searchIcon,
-            ),
-            IconButton(
-              onPressed: () => {
-                setState(() => {selectedIndex = 3})
-              },
-              icon: selectedIndex == 3 ? addIgtvActive : igtvAdd,
-            ),
-            IconButton(
-              onPressed: () => {
-                setState(() => {selectedIndex = 4})
-              },
-              icon: selectedIndex == 4 ? likesActive : likeIcon,
-            ),
-            IconButton(
-              onPressed: () => {
-                setState(() => {selectedIndex = 5})
-              },
-              icon: const CircleAvatar(
-                backgroundImage: AssetImage('images/avatar.jpg'),
-                radius: 13,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
