@@ -1,4 +1,4 @@
-import 'package:firstapp/widgets/storyItem.dart';
+import 'package:firstapp/features/feed/widgets/storyItem.dart';
 import 'package:flutter/material.dart';
 
 final List<Widget> storyItems = [

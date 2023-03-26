@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:firstapp/data/icons.dart';
+import 'package:firstapp/core/data/icons.dart';
 
 class Post extends StatefulWidget {
   const Post(
@@ -21,7 +21,7 @@ class Post extends StatefulWidget {
   final String authorName;
   final String location;
   final bool isOriginalProfile;
-  final List<Widget> imageList;
+  final List<Image> imageList;
   final String? likedBy;
   final int? othersLikesNumber;
   final String? description;
@@ -141,7 +141,7 @@ class PostSlider extends StatelessWidget {
       required this.controller,
       required this.changeCurrent,
       required this.id});
-  final List<Widget> imageList;
+  final List<Image> imageList;
   final int current;
   final CarouselController controller;
   final Function changeCurrent;
@@ -208,7 +208,7 @@ class CarouselTaped extends StatefulWidget {
       required this.imageList,
       required this.id,
       required this.current});
-  final List<Widget> imageList;
+  final List<Image> imageList;
   final String id;
   final int current;
 

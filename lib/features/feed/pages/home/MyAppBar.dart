@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:firstapp/pages/chates.dart';
-import 'package:firstapp/data/icons.dart';
+import 'package:firstapp/features/feed/pages/chates.dart';
+import 'package:firstapp/core/data/icons.dart';
 
 class MyAppBar extends StatelessWidget with PreferredSizeWidget {
   const MyAppBar({super.key, required this.globalKey});

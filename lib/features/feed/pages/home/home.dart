@@ -1,9 +1,13 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../widgets/post.dart';
-import './ImageUploadPopUp.dart';
-import './HomePageBody.dart';
-import './MyDrawer.dart';
-import './MyAppBar.dart';
+import 'addPost/AddPostPopUp.dart';
+import 'MyAppBar.dart';
+import 'MyDrawer.dart';
+import 'HomePageBody.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,6 +18,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _key = GlobalKey();
+
   List<Post> postsList = [
     Post(
       id: '1',
@@ -25,8 +30,11 @@ class _HomePageState extends State<HomePage> {
             fit: BoxFit.cover, width: double.infinity),
         Image.asset('images/tokyo2.jpg',
             fit: BoxFit.cover, width: double.infinity),
-        Image.asset('images/tokyo3.jpg',
-            fit: BoxFit.cover, width: double.infinity)
+        Image.asset(
+          'images/tokyo3.jpg',
+          fit: BoxFit.cover,
+          width: double.infinity,
+        )
       ],
       likedBy: 'craig_love',
       othersLikesNumber: 44686,
@@ -57,8 +65,11 @@ class _HomePageState extends State<HomePage> {
       location: 'Kyiv, Ukraine',
       isOriginalProfile: true,
       imageList: [
-        Image.asset('images/kyiv.jpg',
-            fit: BoxFit.cover, width: double.infinity),
+        Image.asset(
+          'images/kyiv.jpg',
+          fit: BoxFit.cover,
+          width: double.infinity,
+        ),
       ],
       likedBy: 'craig_love',
       othersLikesNumber: 145678,
@@ -82,11 +93,14 @@ class _HomePageState extends State<HomePage> {
         globalKey: _key,
       ),
       drawer: const MyDrawer(),
+      body: HomePageBody(
+        postsList: postsList,
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showDialog(
             context: context,
-            builder: (context) => ImageUploadPopUp(
+            builder: (context) => AddPostPopUp(
               changePosts: changePosts,
             ),
           );
@@ -97,9 +111,6 @@ class _HomePageState extends State<HomePage> {
           Icons.add,
           color: Colors.black,
         ),
-      ),
-      body: HomePageBody(
-        postsList: postsList,
       ),
     );
   }

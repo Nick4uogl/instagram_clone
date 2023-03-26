@@ -84,13 +84,13 @@ class _StoryCircle extends State<StoryCircle> {
   Widget build(BuildContext context) {
     var colorsList = isAllViewed()
         ? [
-            Color(0xffDEDCDC),
-            Color(0xffDEDCDC),
+            const Color(0xffDEDCDC),
+            const Color(0xffDEDCDC),
           ]
         : [
-            Color(0xffFBAA47),
-            Color(0xffD91A46),
-            Color(0xffA60F93),
+            const Color(0xffFBAA47),
+            const Color(0xffD91A46),
+            const Color(0xffA60F93),
           ];
     return !widget.isTranslating
         ? GestureDetector(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:firstapp/data/icons.dart';
-import 'package:firstapp/pages/home/home.dart';
+import 'package:firstapp/core/data/icons.dart';
+import 'package:firstapp/features/feed/pages/home/home.dart';
 
 void main() {
   runApp(const MyApp());

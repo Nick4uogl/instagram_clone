@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:firstapp/data/storyData.dart';
+import 'package:firstapp/core/data/storyData.dart';
 import '../../widgets/post.dart';
 
 class HomePageBody extends StatelessWidget {

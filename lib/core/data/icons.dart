@@ -16,6 +16,7 @@ final Widget homeIconActive = SvgPicture.asset('images/homeActive.svg');
 final Widget commentIcon = SvgPicture.asset('images/comment.svg');
 final Widget saveIcon = SvgPicture.asset('images/save.svg');
 final Widget originalIcon = SvgPicture.asset('images/original.svg');
+final Widget imageUpload = SvgPicture.asset('images/imageUpload.svg');
 final Widget resize = SvgPicture.asset(
   'images/resize.svg',
   width: 16,
@@ -23,4 +24,12 @@ final Widget resize = SvgPicture.asset(
 );
 final Widget showAll = SvgPicture.asset(
   'images/showAll.svg',
+);
+final Widget arrowRight = SvgPicture.asset(
+  'images/arrowRight.svg',
+  color: Colors.white,
+);
+final Widget arrowLeft = SvgPicture.asset(
+  'images/arrowLeft.svg',
+  color: Colors.white,
 );
