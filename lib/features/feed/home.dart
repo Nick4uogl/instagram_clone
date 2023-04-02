@@ -1,13 +1,9 @@
-import 'dart:io';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import '../../widgets/post.dart';
-import 'addPost/AddPostPopUp.dart';
-import 'MyAppBar.dart';
-import 'MyDrawer.dart';
-import 'HomePageBody.dart';
+import 'widgets/post.dart';
+import 'widgets/add_post_popup.dart';
+import 'widgets/my_app_bar.dart';
+import 'widgets/my_drawer.dart';
+import 'widgets/home_page_body.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

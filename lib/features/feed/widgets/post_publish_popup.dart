@@ -1,16 +1,18 @@
+import 'package:firstapp/features/feed/bloc/image_picker_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import '../../../widgets/post.dart';
-import 'PostFilterImagePopUp.dart';
-import 'AddPopUpHeader.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'post.dart';
+import 'post_filter_image_popup.dart';
+import 'add_popup_header.dart';
+import 'package:provider/provider.dart';
+import 'package:firstapp/features/feed/models/pick_image_model.dart';
 
 class PostPublishPopUp extends StatefulWidget {
   const PostPublishPopUp({
     super.key,
-    required this.images,
     required this.changePosts,
   });
-  final List? images;
   final Function changePosts;
 
   @override
@@ -27,6 +29,16 @@ class _PostPublishPopUpState extends State<PostPublishPopUp> {
   }
 
   void publishPopUp() {
+    // List? images = (kIsWeb)
+    //     ? Provider.of<PickImageModel>(context, listen: false).webImages
+    //     : Provider.of<PickImageModel>(context, listen: false).images;
+    List? images = [];
+    BlocListener<ImagePickerBlock, ImagePickerState>(
+      listener: (context, state) {
+        images = (kIsWeb) ? state.webImages : state.pickedImages;
+      },
+    );
+
     widget.changePosts(
       Post(
         id: '4',
@@ -37,17 +49,17 @@ class _PostPublishPopUpState extends State<PostPublishPopUp> {
         description: myController.text,
         imageList: kIsWeb
             ? List.generate(
-                widget.images!.length,
+                images!.length,
                 (index) => Image.memory(
-                  widget.images![index],
+                  images![index],
                   fit: BoxFit.fill,
                   width: double.infinity,
                 ),
               )
             : List.generate(
-                widget.images!.length,
+                images!.length,
                 (index) => Image.file(
-                  widget.images![index],
+                  images![index],
                   fit: BoxFit.fill,
                   width: double.infinity,
                 ),
@@ -63,7 +75,6 @@ class _PostPublishPopUpState extends State<PostPublishPopUp> {
       context: context,
       builder: (context) => PostFilterImagePopUp(
         changePosts: widget.changePosts,
-        images: widget.images,
       ),
     );
   }
@@ -82,10 +93,28 @@ class _PostPublishPopUpState extends State<PostPublishPopUp> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Expanded(
-              child: kIsWeb
-                  ? Image.memory(widget.images![0], fit: BoxFit.cover)
-                  : Image.file(widget.images![0], fit: BoxFit.cover),
+            // Consumer<PickImageModel>(
+            //   builder: (context, imageModel, child) {
+            //     List? images =
+            //         (kIsWeb) ? imageModel.getWebImages : imageModel.images;
+            //     return Expanded(
+            //       child: kIsWeb
+            //           ? Image.memory(images![0], fit: BoxFit.cover)
+            //           : Image.file(images![0], fit: BoxFit.cover),
+            //     );
+            //   },
+            // ),
+            BlocBuilder<ImagePickerBlock, ImagePickerState>(
+              builder: (context, imagePickerState) {
+                List? images = (kIsWeb)
+                    ? imagePickerState.webImages
+                    : imagePickerState.pickedImages;
+                return Expanded(
+                  child: kIsWeb
+                      ? Image.memory(images![0], fit: BoxFit.cover)
+                      : Image.file(images![0], fit: BoxFit.cover),
+                );
+              },
             ),
             Expanded(
                 child: Column(

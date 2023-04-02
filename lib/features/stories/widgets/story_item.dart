@@ -316,6 +316,20 @@ class _StoryProgressIndicatorState extends State<StoryProgressIndicator>
     with TickerProviderStateMixin {
   late AnimationController controller;
 
+  void listenToAnimation() {
+    controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        widget.changeViewedStories(widget.indicatorId);
+        if (widget.current == widget.indicatorId) {
+          widget.changeCurrent();
+        }
+        if (widget.current == widget.storiesLength - 1) {
+          Navigator.pop(context);
+        }
+      }
+    });
+  }
+
   @override
   void initState() {
     controller = AnimationController(
@@ -328,17 +342,8 @@ class _StoryProgressIndicatorState extends State<StoryProgressIndicator>
       controller.animateTo(1);
     }
 
-    controller.addListener(() {
-      if (controller.isCompleted) {
-        widget.changeViewedStories(widget.indicatorId);
-        if (widget.current == widget.indicatorId) {
-          widget.changeCurrent();
-        }
-        if (widget.current == widget.storiesLength - 1) {
-          Navigator.pop(context);
-        }
-      }
-    });
+    listenToAnimation();
+
     super.initState();
   }
 

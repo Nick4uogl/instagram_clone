@@ -1,10 +1,23 @@
+import 'package:firstapp/features/feed/bloc/image_picker_bloc.dart';
+import 'package:firstapp/features/feed/models/pick_image_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firstapp/core/data/icons.dart';
-import 'package:firstapp/features/feed/pages/home/home.dart';
+import 'package:firstapp/features/feed/home.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    // ChangeNotifierProvider(
+    //   create: (context) => PickImageModel(),
+    //   child: const MyApp(),
+    // ),
+    BlocProvider(
+      create: (_) => ImagePickerBlock(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

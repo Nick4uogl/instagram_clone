@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:firstapp/core/data/storyData.dart';
-import '../../widgets/post.dart';
+import '../../stories/stories.dart';
+import 'post.dart';
 
 class HomePageBody extends StatelessWidget {
   const HomePageBody({super.key, required this.postsList});
@@ -15,20 +15,9 @@ class HomePageBody extends StatelessWidget {
         indent: 0,
         thickness: 1,
       ),
-      SizedBox(
+      const SizedBox(
         height: 104,
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(10, 8, 10, 8),
-          scrollDirection: Axis.horizontal,
-          children: List.generate(storyItems.length, (index) {
-            return Row(
-              children: [
-                storyItems[index],
-                if (index != storyItems.length - 1) const SizedBox(width: 20)
-              ],
-            );
-          }),
-        ),
+        child: Stories(),
       ),
       Divider(
         color: Colors.grey[300],

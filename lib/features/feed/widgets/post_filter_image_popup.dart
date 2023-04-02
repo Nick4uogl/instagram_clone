@@ -1,17 +1,19 @@
-import 'package:firstapp/features/feed/pages/home/addPost/AddPostPopUp.dart';
+import 'package:firstapp/features/feed/bloc/image_picker_bloc.dart';
+import 'package:firstapp/features/feed/models/pick_image_model.dart';
+import 'package:firstapp/features/feed/widgets/add_post_popup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'PostPublishPopUp.dart';
-import 'PostEditImagePopUp.dart';
-import 'AddPopUpHeader.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
+import 'post_publish_popup.dart';
+import 'post_edit_image_popup.dart';
+import 'add_popup_header.dart';
 
 class PostFilterImagePopUp extends StatelessWidget {
   const PostFilterImagePopUp({
     super.key,
-    required this.images,
     required this.changePosts,
   });
-  final List? images;
   final Function changePosts;
 
   @override
@@ -22,22 +24,19 @@ class PostFilterImagePopUp extends StatelessWidget {
         context: context,
         builder: (context) => PostPublishPopUp(
           changePosts: changePosts,
-          images: images,
         ),
       );
     }
 
     void previousPopUp() {
       Navigator.pop(context);
-      if (images != null) {
-        showDialog(
-          context: context,
-          builder: (context) => PostEditImagePopUp(
-            changePosts: changePosts,
-            images: images,
-          ),
-        );
-      }
+      showDialog(
+        context: context,
+        builder: (context) => PostEditImagePopUp(
+          changePosts: changePosts,
+          //images: images,
+        ),
+      );
     }
 
     return AlertDialog(
@@ -50,12 +49,32 @@ class PostFilterImagePopUp extends StatelessWidget {
       content: PopUpBox(
         child: Column(
           children: [
-            SizedBox(
-              width: double.infinity,
-              height: 200,
-              child: kIsWeb
-                  ? Image.memory(images![0], fit: BoxFit.cover)
-                  : Image.file(images![0], fit: BoxFit.cover),
+            // Consumer<PickImageModel>(
+            //   builder: (context, imageModel, child) {
+            //     List? images =
+            //         (kIsWeb) ? imageModel.getWebImages : imageModel.images;
+            //     return SizedBox(
+            //       width: double.infinity,
+            //       height: 200,
+            //       child: kIsWeb
+            //           ? Image.memory(images![0], fit: BoxFit.cover)
+            //           : Image.file(images![0], fit: BoxFit.cover),
+            //     );
+            //   },
+            // ),
+            BlocBuilder<ImagePickerBlock, ImagePickerState>(
+              builder: (context, imagePickerState) {
+                List? images = (kIsWeb)
+                    ? imagePickerState.webImages
+                    : imagePickerState.pickedImages;
+                return SizedBox(
+                  width: double.infinity,
+                  height: 200,
+                  child: kIsWeb
+                      ? Image.memory(images![0], fit: BoxFit.cover)
+                      : Image.file(images![0], fit: BoxFit.cover),
+                );
+              },
             ),
             Row(
               children: const [
