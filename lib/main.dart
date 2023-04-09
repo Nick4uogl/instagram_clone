@@ -1,41 +1,48 @@
+import 'package:firstapp/core/theme/bloc/theme_bloc.dart';
+import 'package:firstapp/core/theme/theme_model.dart';
 import 'package:firstapp/features/feed/bloc/image_picker_bloc.dart';
-import 'package:firstapp/features/feed/models/pick_image_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:firstapp/core/data/icons.dart';
 import 'package:firstapp/features/feed/home.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+void main() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var isLightTheme = prefs.getBool('isLightTheme') ?? true;
   runApp(
-    // ChangeNotifierProvider(
-    //   create: (context) => PickImageModel(),
-    //   child: const MyApp(),
-    // ),
-    BlocProvider(
-      create: (_) => ImagePickerBlock(),
-      child: const MyApp(),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<ImagePickerBlock>(
+          create: (_) => ImagePickerBlock(),
+        ),
+        BlocProvider<ThemeBloc>(
+          create: (_) => ThemeBloc(isLightTheme),
+        ),
+      ],
+      child: const InstagramApp(),
     ),
   );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class InstagramApp extends StatelessWidget {
+  const InstagramApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
         const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
-    return MaterialApp(
-      title: 'Instagram',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: Colors.white,
-        fontFamily: 'San Francisco',
-      ),
-      debugShowCheckedModeBanner: false,
-      home: const MyHomePage(),
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, state) {
+        return MaterialApp(
+          title: 'Instagram',
+          theme:
+              state.isLightTheme ? ThemeModel.lightTheme : ThemeModel.darkTheme,
+          debugShowCheckedModeBanner: false,
+          home: const MyHomePage(),
+        );
+      },
     );
   }
 }
@@ -96,7 +103,7 @@ class BottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: const Color(0x4DF2F2F2),
+      color: Theme.of(context).primaryColor,
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -107,7 +114,15 @@ class BottomNavBar extends StatelessWidget {
                   duration: const Duration(milliseconds: 500),
                   curve: Curves.ease)
             },
-            icon: selectedIndex == 0 ? homeIconActive : homeIcon,
+            icon: selectedIndex == 0
+                ? SvgPicture.asset(
+                    'images/homeActive.svg',
+                    color: Theme.of(context).iconTheme.color,
+                  )
+                : SvgPicture.asset(
+                    'images/home.svg',
+                    color: Theme.of(context).iconTheme.color,
+                  ),
           ),
           IconButton(
             onPressed: () => {
@@ -115,7 +130,15 @@ class BottomNavBar extends StatelessWidget {
                   duration: const Duration(milliseconds: 500),
                   curve: Curves.ease)
             },
-            icon: selectedIndex == 1 ? searchIconActive : searchIcon,
+            icon: selectedIndex == 1
+                ? SvgPicture.asset(
+                    'images/searchActive.svg',
+                    color: Theme.of(context).iconTheme.color,
+                  )
+                : SvgPicture.asset(
+                    'images/search.svg',
+                    color: Theme.of(context).iconTheme.color,
+                  ),
           ),
           IconButton(
             onPressed: () => {
@@ -123,7 +146,15 @@ class BottomNavBar extends StatelessWidget {
                   duration: const Duration(milliseconds: 500),
                   curve: Curves.ease)
             },
-            icon: selectedIndex == 2 ? addIgtvActive : igtvAdd,
+            icon: selectedIndex == 2
+                ? SvgPicture.asset(
+                    'images/addIgtvActive.svg',
+                    color: Theme.of(context).iconTheme.color,
+                  )
+                : SvgPicture.asset(
+                    'images/addIgtv.svg',
+                    color: Theme.of(context).iconTheme.color,
+                  ),
           ),
           IconButton(
             onPressed: () => {
@@ -131,7 +162,15 @@ class BottomNavBar extends StatelessWidget {
                   duration: const Duration(milliseconds: 500),
                   curve: Curves.ease)
             },
-            icon: selectedIndex == 3 ? likesActive : likeIcon,
+            icon: selectedIndex == 3
+                ? SvgPicture.asset(
+                    'images/likesActive.svg',
+                    color: Theme.of(context).iconTheme.color,
+                  )
+                : SvgPicture.asset(
+                    'images/likes.svg',
+                    color: Theme.of(context).iconTheme.color,
+                  ),
           ),
           IconButton(
             onPressed: () => {

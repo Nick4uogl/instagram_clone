@@ -26,9 +26,12 @@ class StoryItem extends StatelessWidget {
           ),
           const SizedBox(height: 5),
           Text(
-            "$author",
-            style: const TextStyle(
-                fontSize: 12, letterSpacing: -0.01, color: Color(0xff262626)),
+            author,
+            style: TextStyle(
+              fontSize: 12,
+              letterSpacing: -0.01,
+              color: Theme.of(context).iconTheme.color,
+            ),
           ),
         ],
       ),
@@ -154,7 +157,10 @@ class LiveLabel extends StatelessWidget {
         width: 28,
         height: 18,
         decoration: BoxDecoration(
-          border: Border.all(width: 2, color: Colors.white),
+          border: Border.all(
+            width: 2,
+            color: Theme.of(context).scaffoldBackgroundColor,
+          ),
           borderRadius: BorderRadius.circular(3),
           gradient: const LinearGradient(
             begin: Alignment.bottomRight,
@@ -170,10 +176,11 @@ class LiveLabel extends StatelessWidget {
           child: Text(
             "LIVE",
             style: TextStyle(
-                color: Colors.white,
-                fontSize: 8,
-                fontWeight: FontWeight.w500,
-                letterSpacing: 0.5),
+              color: Colors.white,
+              fontSize: 8,
+              fontWeight: FontWeight.w500,
+              letterSpacing: 0.5,
+            ),
           ),
         ),
       ),
@@ -201,7 +208,7 @@ class StoryAvatar extends StatelessWidget {
         ),
       ),
       child: CircleAvatar(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         radius: 31,
         child: Container(
           width: 56,
@@ -209,7 +216,9 @@ class StoryAvatar extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(28),
             image: DecorationImage(
-                image: AssetImage(assetPath), fit: BoxFit.cover),
+              image: AssetImage(assetPath),
+              fit: BoxFit.cover,
+            ),
           ),
         ),
       ),

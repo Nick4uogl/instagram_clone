@@ -3,7 +3,7 @@ part of 'image_picker_bloc.dart';
 abstract class ImagePickerState {
   final List<File>? pickedImages;
   final List<Uint8List>? webImages;
-  const ImagePickerState({required this.webImages, required this.pickedImages});
+  const ImagePickerState({this.webImages, this.pickedImages});
 }
 
 class ImagesInitial extends ImagePickerState {
@@ -11,9 +11,13 @@ class ImagesInitial extends ImagePickerState {
 }
 
 class ImagesAdded extends ImagePickerState {
-  final List<File>? pickedImages;
-  final List<Uint8List>? webImages;
+  const ImagesAdded({super.pickedImages, super.webImages});
+}
 
-  const ImagesAdded({required this.webImages, required this.pickedImages})
-      : super(pickedImages: pickedImages, webImages: webImages);
+class ImageDeleted extends ImagePickerState {
+  const ImageDeleted({super.pickedImages, super.webImages});
+}
+
+class AddedMore extends ImagePickerState {
+  const AddedMore({super.pickedImages, super.webImages});
 }

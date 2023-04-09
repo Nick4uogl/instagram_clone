@@ -1,9 +1,9 @@
 import 'package:firstapp/features/feed/bloc/image_picker_bloc.dart';
-import 'package:firstapp/features/feed/models/pick_image_model.dart';
 import 'package:firstapp/features/feed/widgets/post_edit_image_popup.dart';
 import 'package:flutter/material.dart';
 import 'package:firstapp/core/data/icons.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'add_popup_header.dart';
 import 'package:provider/provider.dart';
 
@@ -36,56 +36,58 @@ class AddPostPopUp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const AddPopUpHeader(title: 'Створити допис'),
-      content: PopUpBox(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              imageUpload,
-              const SizedBox(
-                height: 20,
-              ),
-              const Text(
-                "Обрати світлини",
-                style: TextStyle(fontSize: 24),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              ElevatedButton(
-                onPressed: () async {
-                  //await Provider.of<PickImageModel>(context, listen: false).pickImage();
-                  BlocProvider.of<ImagePickerBlock>(context).add(AddImages());
-                  if (context.mounted) {
-                    Navigator.pop(context);
-                    showDialog(
-                      context: context,
-                      builder: (context) => PostEditImagePopUp(
-                        changePosts: changePosts!,
-                      ),
-                    );
-                  }
-                },
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.blue),
-                  padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                    const EdgeInsets.all(13),
+    return BlocListener<ImagePickerBlock, ImagePickerState>(
+      listener: (context, state) {
+        if (state is ImagesAdded) {
+          Navigator.pop(context);
+          showDialog(
+            context: context,
+            builder: (context) => PostEditImagePopUp(
+              changePosts: changePosts!,
+            ),
+          );
+        }
+      },
+      child: AlertDialog(
+        title: const AddPopUpHeader(title: 'Створити допис'),
+        content: PopUpBox(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset('images/imageUpload.svg',
+                    color: Theme.of(context).iconTheme.color),
+                const SizedBox(
+                  height: 20,
+                ),
+                const Text(
+                  "Обрати світлини",
+                  style: TextStyle(fontSize: 24),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    BlocProvider.of<ImagePickerBlock>(context).add(AddImages());
+                  },
+                  style: ButtonStyle(
+                    padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                      const EdgeInsets.all(13),
+                    ),
+                  ),
+                  child: const Text(
+                    "Вибрати з комп'ютера",
+                    style: TextStyle(color: Colors.white, fontSize: 20),
                   ),
                 ),
-                child: const Text(
-                  "Вибрати з комп'ютера",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
+        contentPadding: const EdgeInsets.all(0),
+        titlePadding: const EdgeInsets.all(0),
       ),
-      contentPadding: const EdgeInsets.all(0),
-      titlePadding: const EdgeInsets.all(0),
     );
   }
 }

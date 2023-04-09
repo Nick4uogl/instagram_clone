@@ -5,8 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'post.dart';
 import 'post_filter_image_popup.dart';
 import 'add_popup_header.dart';
-import 'package:provider/provider.dart';
-import 'package:firstapp/features/feed/models/pick_image_model.dart';
 
 class PostPublishPopUp extends StatefulWidget {
   const PostPublishPopUp({
@@ -29,15 +27,9 @@ class _PostPublishPopUpState extends State<PostPublishPopUp> {
   }
 
   void publishPopUp() {
-    // List? images = (kIsWeb)
-    //     ? Provider.of<PickImageModel>(context, listen: false).webImages
-    //     : Provider.of<PickImageModel>(context, listen: false).images;
-    List? images = [];
-    BlocListener<ImagePickerBlock, ImagePickerState>(
-      listener: (context, state) {
-        images = (kIsWeb) ? state.webImages : state.pickedImages;
-      },
-    );
+    List? images = (kIsWeb)
+        ? BlocProvider.of<ImagePickerBlock>(context).state.webImages
+        : BlocProvider.of<ImagePickerBlock>(context).state.webImages;
 
     widget.changePosts(
       Post(
@@ -93,17 +85,6 @@ class _PostPublishPopUpState extends State<PostPublishPopUp> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Consumer<PickImageModel>(
-            //   builder: (context, imageModel, child) {
-            //     List? images =
-            //         (kIsWeb) ? imageModel.getWebImages : imageModel.images;
-            //     return Expanded(
-            //       child: kIsWeb
-            //           ? Image.memory(images![0], fit: BoxFit.cover)
-            //           : Image.file(images![0], fit: BoxFit.cover),
-            //     );
-            //   },
-            // ),
             BlocBuilder<ImagePickerBlock, ImagePickerState>(
               builder: (context, imagePickerState) {
                 List? images = (kIsWeb)

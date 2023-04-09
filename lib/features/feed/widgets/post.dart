@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firstapp/core/data/icons.dart';
@@ -110,7 +111,7 @@ class PostHeader extends StatelessWidget {
       title: Row(
         children: [
           Text(
-            "${authorName}",
+            authorName,
             style: const TextStyle(
                 fontSize: 13, letterSpacing: -0.1, fontWeight: FontWeight.w600),
           ),
@@ -121,14 +122,16 @@ class PostHeader extends StatelessWidget {
       minLeadingWidth: 32,
       contentPadding: const EdgeInsets.only(left: 10, right: 10),
       subtitle: Text(
-        "${location}",
+        location,
         style: const TextStyle(
           fontSize: 11,
           letterSpacing: 0.07,
-          color: Color(0xff262626),
         ),
       ),
-      trailing: const Icon(Icons.more_horiz, color: Colors.black),
+      trailing: Icon(
+        Icons.more_horiz,
+        color: Theme.of(context).iconTheme.color,
+      ),
     );
   }
 }
@@ -299,11 +302,35 @@ class PostActions extends StatelessWidget {
         children: [
           Row(
             children: [
-              IconButton(onPressed: null, icon: likeIcon),
-              IconButton(onPressed: null, icon: commentIcon),
-              IconButton(onPressed: null, icon: messengerIcon),
+              IconButton(
+                onPressed: null,
+                icon: SvgPicture.asset(
+                  'images/likes.svg',
+                  color: Theme.of(context).iconTheme.color,
+                ),
+              ),
+              IconButton(
+                onPressed: null,
+                icon: SvgPicture.asset(
+                  'images/comment.svg',
+                  color: Theme.of(context).iconTheme.color,
+                ),
+              ),
+              IconButton(
+                onPressed: null,
+                icon: SvgPicture.asset(
+                  'images/Messanger.svg',
+                  color: Theme.of(context).iconTheme.color,
+                ),
+              ),
               const Spacer(),
-              IconButton(onPressed: null, icon: saveIcon),
+              IconButton(
+                onPressed: null,
+                icon: SvgPicture.asset(
+                  'images/save.svg',
+                  color: Theme.of(context).iconTheme.color,
+                ),
+              ),
             ],
           ),
           if (imageList.length > 1)
@@ -381,42 +408,55 @@ class PostLikes extends StatelessWidget {
         RichText(
           text: TextSpan(
             children: [
-              const TextSpan(
-                  text: 'Liked by ',
-                  style: TextStyle(color: Color(0xff262626))),
               TextSpan(
-                  text: "${likedBy} ",
-                  style: const TextStyle(
-                      color: Color(0xff262626), fontWeight: FontWeight.w600)),
+                text: 'Liked by ',
+                style: TextStyle(
+                  color: Theme.of(context).iconTheme.color,
+                ),
+              ),
+              TextSpan(
+                text: "$likedBy ",
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: Theme.of(context).iconTheme.color,
+                ),
+              ),
               if (othersLikesNumber != null)
-                const TextSpan(
-                    text: 'and ', style: TextStyle(color: Color(0xff262626))),
+                TextSpan(
+                    text: 'and ',
+                    style: TextStyle(
+                      color: Theme.of(context).iconTheme.color,
+                    )),
               if (othersLikesNumber != null)
                 (othersLikesNumber! > 999)
                     ? TextSpan(
                         text: '${formatter.format(othersLikesNumber)} ',
-                        style: const TextStyle(
-                            color: Color(0xff262626),
-                            fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: Theme.of(context).iconTheme.color,
+                        ),
                       )
                     : TextSpan(
-                        text: '${othersLikesNumber} ',
-                        style: const TextStyle(
-                            color: Color(0xff262626),
-                            fontWeight: FontWeight.w600),
+                        text: '$othersLikesNumber ',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: Theme.of(context).iconTheme.color,
+                        ),
                       ),
               (othersLikesNumber != null && othersLikesNumber! > 1)
-                  ? const TextSpan(
+                  ? TextSpan(
                       text: 'others',
                       style: TextStyle(
-                          color: Color(0xff262626),
-                          fontWeight: FontWeight.w600),
+                        fontWeight: FontWeight.w600,
+                        color: Theme.of(context).iconTheme.color,
+                      ),
                     )
-                  : const TextSpan(
+                  : TextSpan(
                       text: 'other person',
                       style: TextStyle(
-                          color: Color(0xff262626),
-                          fontWeight: FontWeight.w600),
+                        fontWeight: FontWeight.w600,
+                        color: Theme.of(context).iconTheme.color,
+                      ),
                     ),
             ],
           ),
@@ -441,12 +481,17 @@ class PostDescription extends StatelessWidget {
           text: TextSpan(
             children: [
               TextSpan(
-                  text: '${authorName} ',
-                  style: const TextStyle(
-                      color: Color(0xff262626), fontWeight: FontWeight.w600)),
+                text: '$authorName ',
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: Theme.of(context).iconTheme.color,
+                ),
+              ),
               TextSpan(
-                  text: '${description}',
-                  style: const TextStyle(color: Color(0xff262626)))
+                  text: '$description',
+                  style: TextStyle(
+                    color: Theme.of(context).iconTheme.color,
+                  ))
             ],
           ),
         ),

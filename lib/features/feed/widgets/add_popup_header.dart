@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AddPopUpHeader extends StatelessWidget {
   const AddPopUpHeader(
@@ -15,10 +16,10 @@ class AddPopUpHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 5),
-      decoration: const BoxDecoration(
+      height: 51,
+      decoration: BoxDecoration(
         border: Border(
-          bottom: BorderSide(width: 1, color: Colors.grey),
+          bottom: BorderSide(width: 1, color: Theme.of(context).dividerColor),
         ),
       ),
       child: Row(
@@ -31,15 +32,19 @@ class AddPopUpHeader extends StatelessWidget {
               onPressed: () {
                 previousPopUp!();
               },
-              icon: const Icon(
+              icon: Icon(
                 Icons.arrow_back,
-                color: Colors.black,
+                color: Theme.of(context).iconTheme.color,
               ),
             ),
           if (title != null)
             Text(
               title!,
-              style: const TextStyle(color: Colors.black),
+              style: GoogleFonts.roboto(
+                textStyle: TextStyle(
+                  color: Theme.of(context).iconTheme.color,
+                ),
+              ),
             ),
           if (nextButton != null)
             TextButton(
@@ -48,8 +53,7 @@ class AddPopUpHeader extends StatelessWidget {
               },
               child: Text(
                 nextButton!,
-                style: const TextStyle(
-                    color: Colors.blue, fontWeight: FontWeight.w600),
+                style: const TextStyle(fontWeight: FontWeight.w600),
               ),
             ),
         ],

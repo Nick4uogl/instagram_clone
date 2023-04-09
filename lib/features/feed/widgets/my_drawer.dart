@@ -1,4 +1,6 @@
+import 'package:firstapp/core/theme/bloc/theme_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({Key? key}) : super(key: key);
@@ -23,11 +25,17 @@ class MyDrawer extends StatelessWidget {
               Navigator.pop(context);
             },
           ),
-          ListTile(
-            leading: const Icon(Icons.sunny),
-            title: const Text('App theme'),
-            onTap: () {
-              Navigator.pop(context);
+          BlocBuilder<ThemeBloc, ThemeState>(
+            builder: (context, state) {
+              return ListTile(
+                leading: (state.isLightTheme)
+                    ? const Icon(Icons.sunny)
+                    : const Icon(Icons.dark_mode),
+                title: const Text('App theme'),
+                onTap: () {
+                  BlocProvider.of<ThemeBloc>(context).add(ToggleTheme());
+                },
+              );
             },
           ),
           const AboutListTile(

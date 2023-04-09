@@ -1,4 +1,6 @@
+import 'package:firstapp/core/theme/bloc/theme_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../stories/stories.dart';
 import 'post.dart';
 
@@ -10,7 +12,7 @@ class HomePageBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(children: [
       Divider(
-        color: Colors.grey[300],
+        color: Theme.of(context).dividerColor,
         height: 0,
         indent: 0,
         thickness: 1,
@@ -20,7 +22,7 @@ class HomePageBody extends StatelessWidget {
         child: Stories(),
       ),
       Divider(
-        color: Colors.grey[300],
+        color: Theme.of(context).dividerColor,
         height: 0,
         indent: 0,
         thickness: 1,

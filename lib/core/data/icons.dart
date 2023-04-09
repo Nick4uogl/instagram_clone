@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 
 final Widget igtvIcon = SvgPicture.asset('images/IGTV.svg');
 final Widget messengerIcon = SvgPicture.asset('images/Messanger.svg');
-final Widget cameraIcon = SvgPicture.asset('images/CameraIcon.svg');
+final Widget cameraIcon = SvgPicture.asset(
+  'images/CameraIcon.svg',
+);
 final Widget instagramIcon = SvgPicture.asset('images/InstagramLogo.svg');
 final Widget igtvAdd = SvgPicture.asset('images/addIgtv.svg');
 final Widget homeIcon = SvgPicture.asset('images/home.svg');

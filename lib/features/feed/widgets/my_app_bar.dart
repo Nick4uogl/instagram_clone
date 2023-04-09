@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firstapp/features/chats/chates.dart';
 import 'package:firstapp/core/data/icons.dart';
+import 'package:flutter_svg/svg.dart';
 
 class MyAppBar extends StatelessWidget with PreferredSizeWidget {
   const MyAppBar({super.key, required this.globalKey});
@@ -16,17 +17,21 @@ class MyAppBar extends StatelessWidget with PreferredSizeWidget {
       leadingWidth: 90,
       toolbarHeight: 44,
       centerTitle: true,
+      iconTheme: Theme.of(context).iconTheme,
+      backgroundColor: Theme.of(context).primaryColor,
       leading: Row(
         children: [
           IconButton(
             icon: const Icon(
               Icons.menu,
-              color: Colors.black,
             ),
             onPressed: () => globalKey.currentState!.openDrawer(),
           ),
           IconButton(
-            icon: cameraIcon,
+            icon: SvgPicture.asset(
+              'images/CameraIcon.svg',
+              color: Theme.of(context).iconTheme.color,
+            ),
             onPressed: null,
           ),
         ],
@@ -35,15 +40,20 @@ class MyAppBar extends StatelessWidget with PreferredSizeWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const SizedBox(height: 5),
-          instagramIcon,
+          SvgPicture.asset(
+            'images/InstagramLogo.svg',
+            color: Theme.of(context).iconTheme.color,
+          ),
         ],
       ),
-      backgroundColor: const Color(0x4DF2F2F2),
       elevation: 0,
       actions: [
         IconButton(
           onPressed: null,
-          icon: igtvIcon,
+          icon: SvgPicture.asset(
+            'images/IGTV.svg',
+            color: Theme.of(context).iconTheme.color,
+          ),
         ),
         IconButton(
           onPressed: () {
@@ -52,7 +62,10 @@ class MyAppBar extends StatelessWidget with PreferredSizeWidget {
               MaterialPageRoute(builder: (context) => const Chates()),
             );
           },
-          icon: messengerIcon,
+          icon: SvgPicture.asset(
+            'images/Messanger.svg',
+            color: Theme.of(context).iconTheme.color,
+          ),
         ),
       ],
     );
