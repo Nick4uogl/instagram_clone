@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firstapp/features/feed/bloc/image_picker_bloc.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +25,6 @@ class CustomFadeAnimation extends StatefulWidget {
 
 class _CustomFadeAnimationState extends State<CustomFadeAnimation> {
   bool isCompleted = true;
-  late Timer _timer;
 
   bool delayHide() {
     if (isCompleted) {

@@ -1,3 +1,4 @@
+import 'package:firstapp/features/user/user_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
@@ -110,10 +111,33 @@ class PostHeader extends StatelessWidget {
       ),
       title: Row(
         children: [
-          Text(
-            authorName,
-            style: const TextStyle(
-                fontSize: 13, letterSpacing: -0.1, fontWeight: FontWeight.w600),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => UserPage(
+                    author: authorName,
+                    profileImagePath: authorAvatarPath,
+                    nickName: 'jakob_w',
+                    posts: 83,
+                    followers: 45,
+                    following: 956,
+                  ),
+                ),
+              );
+            },
+            style: TextButton.styleFrom(
+              padding: const EdgeInsets.all(0),
+            ),
+            child: Text(
+              authorName,
+              style: TextStyle(
+                fontSize: 13,
+                letterSpacing: -0.1,
+                fontWeight: FontWeight.w600,
+                color: Theme.of(context).iconTheme.color,
+              ),
+            ),
           ),
           if (isOriginalProfile) const SizedBox(width: 4),
           if (isOriginalProfile) originalIcon
@@ -165,7 +189,7 @@ class PostSlider extends StatelessWidget {
           ),
         );
         changeCurrent(curr);
-        controller.animateToPage(current);
+        controller.animateToPage(curr);
       },
       child: Stack(clipBehavior: Clip.none, children: [
         Hero(

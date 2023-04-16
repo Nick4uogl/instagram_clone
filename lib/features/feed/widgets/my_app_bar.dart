@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:firstapp/features/chats/chates.dart';
-import 'package:firstapp/core/data/icons.dart';
 import 'package:flutter_svg/svg.dart';
 
 class MyAppBar extends StatelessWidget with PreferredSizeWidget {
@@ -57,9 +55,8 @@ class MyAppBar extends StatelessWidget with PreferredSizeWidget {
         ),
         IconButton(
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const Chates()),
+            Navigator.of(context, rootNavigator: true).pushNamed(
+              '/chats',
             );
           },
           icon: SvgPicture.asset(

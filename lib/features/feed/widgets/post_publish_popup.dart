@@ -43,7 +43,7 @@ class _PostPublishPopUpState extends State<PostPublishPopUp> {
             ? List.generate(
                 images!.length,
                 (index) => Image.memory(
-                  images![index],
+                  images[index],
                   fit: BoxFit.fill,
                   width: double.infinity,
                 ),
@@ -51,7 +51,7 @@ class _PostPublishPopUpState extends State<PostPublishPopUp> {
             : List.generate(
                 images!.length,
                 (index) => Image.file(
-                  images![index],
+                  images[index],
                   fit: BoxFit.fill,
                   width: double.infinity,
                 ),

@@ -1,3 +1,4 @@
+import 'package:firstapp/features/stories/models/story_model.dart';
 import 'package:flutter/material.dart';
 
 class StoryItem extends StatelessWidget {
@@ -56,36 +57,17 @@ class StoryCircle extends StatefulWidget {
 }
 
 class _StoryCircle extends State<StoryCircle> {
-  late List<bool> viewedStories;
+  bool isViewed = false;
 
-  @override
-  void initState() {
-    viewedStories = List.generate(widget.images.length, (index) => false);
-    super.initState();
-  }
-
-  void changeViewedStories(int index) {
+  void changeIsViewed() {
     setState(() {
-      viewedStories[index] = true;
+      isViewed = true;
     });
-  }
-
-  bool isAllViewed() {
-    int viewed = 0;
-    for (var i in viewedStories) {
-      if (i) {
-        viewed++;
-      }
-    }
-    if (viewed == viewedStories.length) {
-      return true;
-    }
-    return false;
   }
 
   @override
   Widget build(BuildContext context) {
-    var colorsList = isAllViewed()
+    var colorsList = isViewed
         ? [
             const Color(0xffDEDCDC),
             const Color(0xffDEDCDC),
@@ -98,16 +80,23 @@ class _StoryCircle extends State<StoryCircle> {
     return !widget.isTranslating
         ? GestureDetector(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => StorySlider(
-                    images: widget.images,
-                    author: widget.author,
-                    changeViewedStories: changeViewedStories,
-                  ),
+              Navigator.of(context, rootNavigator: true).pushNamed(
+                StorySlider.routeName,
+                arguments: StoryModel(
+                  images: widget.images,
+                  author: widget.author,
+                  changeIsViewed: changeIsViewed,
                 ),
               );
+              // final result = await Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => StorySlider(
+              //       images: widget.images,
+              //       author: widget.author,
+              //     ),
+              //   ),
+              // );
             },
             child: StoryAvatar(
               assetPath: widget.assetPath,
@@ -116,16 +105,15 @@ class _StoryCircle extends State<StoryCircle> {
           )
         : GestureDetector(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => StorySlider(
-                    images: widget.images,
-                    author: widget.author,
-                    changeViewedStories: changeViewedStories,
-                  ),
-                ),
-              );
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => StorySlider(
+              //       images: widget.images,
+              //       author: widget.author,
+              //     ),
+              //   ),
+              // );
             },
             child: Stack(
               clipBehavior: Clip.none,
@@ -227,15 +215,8 @@ class StoryAvatar extends StatelessWidget {
 }
 
 class StorySlider extends StatefulWidget {
-  const StorySlider(
-      {super.key,
-      required this.images,
-      required this.author,
-      required this.changeViewedStories});
-  final List<Widget> images;
-  final String author;
-  final Function changeViewedStories;
-
+  const StorySlider({super.key});
+  static const routeName = '/story';
   @override
   State<StorySlider> createState() => _StorySliderState();
 }
@@ -251,10 +232,12 @@ class _StorySliderState extends State<StorySlider> {
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments as StoryModel;
     return Scaffold(
       body: GestureDetector(
         onTap: () {
-          if (_current == widget.images.length - 1) {
+          if (_current == args.images.length - 1) {
+            args.changeIsViewed();
             Navigator.pop(context);
           }
           changeCurrent();
@@ -263,9 +246,9 @@ class _StorySliderState extends State<StorySlider> {
           children: [
             SizedBox(
                 height: MediaQuery.of(context).size.height,
-                child: (_current != widget.images.length)
-                    ? widget.images[_current]
-                    : widget.images[_current - 1]),
+                child: (_current != args.images.length)
+                    ? args.images[_current]
+                    : args.images[_current - 1]),
             Positioned(
               top: 8,
               left: 0,
@@ -275,19 +258,19 @@ class _StorySliderState extends State<StorySlider> {
                 height: 2,
                 child: Row(
                   children: List.generate(
-                    widget.images.length,
+                    args.images.length,
                     (index) {
                       return Flexible(
                         child: Padding(
-                          padding: (index != widget.images.length - 1)
+                          padding: (index != args.images.length - 1)
                               ? const EdgeInsets.only(right: 8)
                               : const EdgeInsets.only(right: 0),
                           child: StoryProgressIndicator(
+                            changeIsViewed: args.changeIsViewed,
                             indicatorId: index,
                             current: _current,
-                            storiesLength: widget.images.length,
+                            storiesLength: args.images.length,
                             changeCurrent: changeCurrent,
-                            changeViewedStories: widget.changeViewedStories,
                           ),
                         ),
                       );
@@ -304,18 +287,19 @@ class _StorySliderState extends State<StorySlider> {
 }
 
 class StoryProgressIndicator extends StatefulWidget {
-  const StoryProgressIndicator(
-      {super.key,
-      required this.indicatorId,
-      required this.current,
-      required this.storiesLength,
-      required this.changeCurrent,
-      required this.changeViewedStories});
+  const StoryProgressIndicator({
+    super.key,
+    required this.indicatorId,
+    required this.current,
+    required this.storiesLength,
+    required this.changeCurrent,
+    required this.changeIsViewed,
+  });
   final int indicatorId;
   final int current;
   final int storiesLength;
   final Function changeCurrent;
-  final Function changeViewedStories;
+  final Function changeIsViewed;
 
   @override
   State<StoryProgressIndicator> createState() => _StoryProgressIndicatorState();
@@ -328,12 +312,14 @@ class _StoryProgressIndicatorState extends State<StoryProgressIndicator>
   void listenToAnimation() {
     controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-        widget.changeViewedStories(widget.indicatorId);
         if (widget.current == widget.indicatorId) {
           widget.changeCurrent();
         }
         if (widget.current == widget.storiesLength - 1) {
-          Navigator.pop(context);
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            widget.changeIsViewed();
+            Navigator.pop(context, true);
+          });
         }
       }
     });
